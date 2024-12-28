@@ -1,0 +1,53 @@
+networks:
+  my-app:
+    driver: bridge
+
+services:
+
+  next-app:
+    container_name: next-app
+    build:
+      context: ./next-app
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./next-app:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - my-app
+
+  nest-app:
+    build:
+      context: ./nest-app
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    container_name: nest-app
+    volumes:
+      - /app/node_modules
+      - ./nest-app:/app
+    networks:
+      - my-app
+
+  nginx:
+    container_name: nginx
+    depends_on:
+      - nest-app
+      - next-app
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "3050:80"
+    volumes:
+      - ./doc:/usr/share/nginx/html/doc
+    environment:
+      API_URL: doc/openapi.yaml
+    networks:
+      - my-app
