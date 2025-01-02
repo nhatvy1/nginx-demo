@@ -10,8 +10,8 @@ services:
       context: ./next-app
       dockerfile: Dockerfile
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    # ports:
+    #   - "3000:3000"
     stdin_open: true
     tty: true
     volumes:
