@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { UserRepository } from './user.repository'
-import { plainToClass, plainToInstance } from 'class-transformer'
+import { plainToInstance } from 'class-transformer'
 import { User } from './user.entity'
 
 @Injectable()
@@ -18,9 +18,5 @@ export class UserService {
   async createUser(data: any) {
     const dataCreate = plainToInstance(User, data)
     return await this.userRepository.create(dataCreate)
-  }
-
-  async getUserDemo() {
-    return await this.userRepository.getUser()
   }
 }

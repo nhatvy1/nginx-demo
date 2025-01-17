@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { FindOneOptions, Repository } from 'typeorm'
+import { DeepPartial, FindOneOptions, Repository, SaveOptions } from 'typeorm'
 import { User } from './user.entity'
+import { CreateUserDto } from './dto/create.user.dto'
 
 @Injectable()
 export class UserRepository {
@@ -17,8 +18,8 @@ export class UserRepository {
     return await this.userRepository.findOneBy({ id })
   }
 
-  async create(data: any) {
-    return await this.userRepository.save(data)
+  async create(entities: CreateUserDto) {
+    return await this.userRepository.save(entities)
   }
 
   async getUser() {

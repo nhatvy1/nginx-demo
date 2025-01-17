@@ -1,14 +1,19 @@
-import { ConflictException, Injectable } from '@nestjs/common'
-import { UserService } from '../user/user.service'
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { RegisterDto } from './dto/register.dto'
 import { Hash } from 'src/utils/hash'
+import { UserRepository } from '../user/user.repository'
+import { plainToInstance } from 'class-transformer'
+import { User } from '../user/user.entity'
+import { LoginDto } from './dto/login.dto'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async register(body: RegisterDto) {
-    const user = await this.userService.findUserByEmail(body.email)
+    const user = await this.userRepository.findOne({
+      where: { email: body.email }
+    })
     if (user) {
       throw new ConflictException('Email already in use')
     }
@@ -16,16 +21,35 @@ export class AuthService {
     const salt = await Hash.generateSalt()
     const hashPassword = await Hash.generatePassword(body.password, salt)
 
-    const createUser = await this.userService.createUser({
+    const dataCreate = plainToInstance(User, {
       ...body,
-      salt,
+      salt: salt,
       password: hashPassword
     })
 
-    return createUser
+    const createUser = await this.userRepository.create(dataCreate)
+
+    const { password, ...response } = createUser
+
+    return response
   }
 
-  async login() {
-    return await this.userService.getUserDemo()
+  async login(body: LoginDto) {
+    const user = await this.userRepository.findOne({
+      where: { email: body.email }
+    })
+    if(!user) {
+      throw new NotFoundException('Email or password incorrect')
+    }
+
+    const isMatch = await Hash.verify(body.password, user.password)
+    if(!isMatch) {
+      throw new NotFoundException('Email or password incorrect')
+    }
+
+    /*
+      Device session 
+    */
+    return 1
   }
 }
