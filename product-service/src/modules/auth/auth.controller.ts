@@ -4,18 +4,20 @@ import {
   Get,
   HttpCode,
   HttpStatus,
-  NotFoundException,
+  Inject,
   Post
 } from '@nestjs/common'
 import { RegisterDto } from './dto/register.dto'
 import { AuthService } from './auth.service'
 import { ResponseMessage } from 'src/decorators/reponse-message.decorator'
 import { LoginDto } from './dto/login.dto'
+import { ClientProxy } from '@nestjs/microservices'
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
+    @Inject('LOG_SERVICE') private readonly logServiceClient: ClientProxy
   ) {}
 
   @Get('login')
@@ -34,7 +36,15 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ResponseMessage('Test winston')
   async testWinston() {
-    
+    this.logServiceClient.emit(
+      { cmd: 'create' },
+      {
+        price: '12000',
+        productId: 1,
+        phone: '0312999777',
+        email: 'demo@gmail.com'
+      }
+    )
     return 'success'
   }
 }

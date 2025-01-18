@@ -7,6 +7,8 @@ import { AuthModule } from './modules/auth/auth.module'
 import { LoggerModule } from './logger/logger.module'
 import { LoggerMiddleware } from './middleware/logger.middleware'
 import configuration from './configs/configuration'
+import { ClientsModule, Transport } from '@nestjs/microservices'
+import { LogServiceModule } from './modules/log-service/log-service.module'
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import configuration from './configs/configuration'
     TypeOrmModule.forRootAsync({
       useFactory: typeormConfig
     }),
+    LogServiceModule,
     LoggerModule,
     UserModule,
     AuthModule

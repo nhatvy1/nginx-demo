@@ -16,7 +16,6 @@ export class LoggerMiddleware implements NestMiddleware {
       const duration = `${Date.now() - start}ms`
       const message = `${method} ${originalUrl}, ${statusCode}, ${Date.now() - start}ms`
       if (statusCode === 404) {
-        console.log(1)
         // Ghi vào error log nếu API không tồn tại
         this.logger.error(`Error: ${message}`, message, {
           method,
@@ -27,7 +26,6 @@ export class LoggerMiddleware implements NestMiddleware {
           device: headers['device'] || 'unknown'
         })
       } else {
-        console.log(2)
         this.logger.info('info', {
           method,
           statusCode,

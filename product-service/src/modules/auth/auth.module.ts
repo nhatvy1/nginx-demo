@@ -5,7 +5,10 @@ import { UserModule } from '../user/user.module'
 import { LoggerModule } from 'src/logger/logger.module'
 
 @Module({
-  imports: [UserModule, LoggerModule],
+  imports: [
+    UserModule,
+    LoggerModule
+  ],
   controllers: [AuthController],
   providers: [AuthService]
 })

@@ -3,6 +3,7 @@ import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import { TransformInterceptor } from './interceptors/transform.interceptor'
 import { AllExceptionsFilter } from './interceptors/all-exception.filter'
+import { ConfigService } from '@nestjs/config'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
@@ -10,13 +11,14 @@ async function bootstrap() {
   const reflector = app.get(Reflector)
 
   app.setGlobalPrefix('api')
-  
+
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }))
   app.useGlobalInterceptors(new TransformInterceptor(reflector))
   app.useGlobalFilters(new AllExceptionsFilter())
 
-  await app.listen(process.env.PORT ?? 5000)
-  
-  console.log(`App is running port 5000`)
+  const configService = app.get(ConfigService)
+  const PORT = configService.get('PORT')
+
+  await app.listen(PORT, () => console.log(`App is running on port ${PORT}`))
 }
 bootstrap()

@@ -1,14 +1,22 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  NotFoundException
+} from '@nestjs/common'
 import { RegisterDto } from './dto/register.dto'
 import { Hash } from 'src/utils/hash'
 import { UserRepository } from '../user/user.repository'
 import { plainToInstance } from 'class-transformer'
 import { User } from '../user/user.entity'
 import { LoginDto } from './dto/login.dto'
+import { ClientProxy } from '@nestjs/microservices'
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+  ) {}
 
   async register(body: RegisterDto) {
     const user = await this.userRepository.findOne({
@@ -38,12 +46,12 @@ export class AuthService {
     const user = await this.userRepository.findOne({
       where: { email: body.email }
     })
-    if(!user) {
+    if (!user) {
       throw new NotFoundException('Email or password incorrect')
     }
 
     const isMatch = await Hash.verify(body.password, user.password)
-    if(!isMatch) {
+    if (!isMatch) {
       throw new NotFoundException('Email or password incorrect')
     }
 
