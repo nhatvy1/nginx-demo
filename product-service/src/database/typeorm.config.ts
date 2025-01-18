@@ -8,6 +8,9 @@ export default (): TypeOrmModuleOptions => ({
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  poolSize: 10,
+  connectTimeoutMS: 10000,
+  maxQueryExecutionTime: 20000,
   entities: [User],
   autoLoadEntities: true,
   synchronize: process.env.DB_SYNC === 'true'
