@@ -11,11 +11,13 @@ import { plainToInstance } from 'class-transformer'
 import { User } from '../user/user.entity'
 import { LoginDto } from './dto/login.dto'
 import { ClientProxy } from '@nestjs/microservices'
+import { MAIL_SERVICE } from './auth.constant'
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly userRepository: UserRepository,
+    @Inject(MAIL_SERVICE) private readonly mailClientProxy: ClientProxy
   ) {}
 
   async register(body: RegisterDto) {

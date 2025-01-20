@@ -6,14 +6,9 @@
     "auditLog": "storages/dev/.0725a618c426f669010e1b4c9e73fdc505cf1362-audit.json",
     "files": [
         {
-            "date": 1737024539165,
-            "name": "storages/dev/error-16-01-2025.log",
-            "hash": "448dc0c8a4e1fbdd012862adbb3d895e0d6d41327d47e7af4c95f30c70b33273"
-        },
-        {
-            "date": 1737176639814,
-            "name": "storages/dev/error-18-01-2025.log",
-            "hash": "f099b7334281bdd71d03f4ae44cd26fcd5112fcdf59caaf37e8ccb9e6e7360e9"
+            "date": 1737355678551,
+            "name": "storages/dev/error-20-01-2025.log",
+            "hash": "a0a7fd602b40248757d8a1ae4a95753eb6658befd928e41b8c21e61f1215c243"
         }
     ],
     "hashType": "sha256"

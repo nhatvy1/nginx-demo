@@ -12,5 +12,9 @@ export default () => ({
     FILE_LOG_NAME_INFO: process.env.FILE_LOG_NAME_INFO,
     FILE_LOG_NAME_ERR: process.env.FILE_LOG_NAME_ERR,
     MAX_SIZE_FILE_LOG_INFO: process.env.MAX_SIZE_FILE_LOG_INFO
+  },
+  REDIS: {
+    HOST: process.env.REDIS_HOST,
+    PORT: process.env.REDIS_PORT
   }
 })

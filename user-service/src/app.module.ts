@@ -9,6 +9,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware'
 import configuration from './configs/configuration'
 import { ClientsModule, Transport } from '@nestjs/microservices'
 import { LogServiceModule } from './modules/log-service/log-service.module'
+import { RedisModule } from './modules/redis/redis.module'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { LogServiceModule } from './modules/log-service/log-service.module'
     TypeOrmModule.forRootAsync({
       useFactory: typeormConfig
     }),
+    RedisModule,
     LogServiceModule,
     LoggerModule,
     UserModule,

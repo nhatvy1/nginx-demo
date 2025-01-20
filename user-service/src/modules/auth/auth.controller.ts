@@ -12,12 +12,14 @@ import { AuthService } from './auth.service'
 import { ResponseMessage } from 'src/decorators/reponse-message.decorator'
 import { LoginDto } from './dto/login.dto'
 import { ClientProxy } from '@nestjs/microservices'
+import { RedisRepository } from '../redis/redis.repository'
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    @Inject('LOG_SERVICE') private readonly logServiceClient: ClientProxy
+    @Inject('LOG_SERVICE') private readonly logServiceClient: ClientProxy,
+    private readonly redisRepository: RedisRepository
   ) {}
 
   @Get('login')
@@ -45,6 +47,6 @@ export class AuthController {
         email: 'demo@gmail.com'
       }
     )
-    return 'success'
+    return 'this.users'
   }
 }

@@ -14,6 +14,10 @@ export class UserRepository {
     return await this.userRepository.findOne(options)
   }
 
+  async find() {
+    return await this.userRepository.find()
+  }
+
   async findById(id: number) {
     return await this.userRepository.findOneBy({ id })
   }
